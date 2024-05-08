@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    
+    triggers {
+        pollSCM('* * * * *') // Poll SCM every minute
+    }
+    
     stages {
         stage('Build') {
             steps {
@@ -65,16 +70,17 @@ pipeline {
             }
         }
     }
+    
     post {
         always {
             script {
                 def currentStage = env.STAGE_NAME
                 def status = currentBuild.currentResult
                 emailext(
-                    to: 'abidnauman0@gmail.com',
+                    to: 'qasimziak85@gmail.com',
                     subject: "${currentStage} Stage: ${status}",
                     body: "${currentStage} stage completed with status: ${status}",
-                    attachmentsPattern: "**/*.log"
+                    attachmentsPattern: "*/.log"
                 )
             }
         }
