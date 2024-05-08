@@ -71,7 +71,7 @@ pipeline {
                 def currentStage = env.STAGE_NAME
                 def status = currentBuild.currentResult
                 emailext(
-                    to: 'your-email@example.com',
+                    to: 'abidnauman0@gmail.com',
                     subject: "${currentStage} Stage: ${status}",
                     body: "${currentStage} stage completed with status: ${status}",
                     attachmentsPattern: "**/*.log"
