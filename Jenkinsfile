@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'emailRecipient', defaultValue: 'qasimziak85@gmail.com', description: 'Email address to receive notifications.')
+        string(name: 'emailRecipient', defaultValue: 'abidnauman0@gmail.com', description: 'Email address to receive notifications.')
         booleanParam(name: 'attachLog', defaultValue: true, description: 'Attach build log to email,')
     }
 
