@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'emailRecipient', defaultValue: 'abidnauman0@gmail.com', description: 'Email address to receive notifications')
+        string(name: 'emailRecipient', defaultValue: 'qasimziak85@gmail.com', description: 'Email address to receive notifications')
         booleanParam(name: 'attachLog', defaultValue: true, description: 'Attach build log to email')
     }
 
@@ -20,24 +20,6 @@ pipeline {
             steps {
                 echo 'run unit tests to ensure the code functions as expected and run integration tests to ensure the different components of the application work together as expected. You need to specify test automation tools for this stage.'
 
-            }
-            post {
-                success {
-                    emailext(
-                        subject: 'Unit & Integration Tests - Success!',
-                        body: 'Unit and Integration Tests passed successfully in latest version!',
-                        to: "${params.emailRecipient}",
-                        attachLog: "${params.attachLog}"
-                    )
-                }
-                failure {
-                    emailext(
-                        subject: 'Unit & Integration Tests - Failed!',
-                        body: 'Unit and Integration Tests failed! Check the logs for details.',
-                        to: "${params.emailRecipient}",
-                        attachLog: "${params.attachLog}"
-                    )
-                }
             }
         }
         stage('Code Analysis') {
