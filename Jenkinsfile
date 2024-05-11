@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo '''
                 Stage 1: Build
-                Task: Build the code using a build automation tool to compile and package your code.
+                Task: Build the code using a build automation tool to compile and package your code..
                 Tool: Maven
                 '''
             }
