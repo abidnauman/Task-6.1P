@@ -3,7 +3,7 @@ pipeline {
 
     parameters {
         string(name: 'emailRecipient', defaultValue: 'abidnauman0@gmail.com', description: 'Email address to receive notifications.')
-        booleanParam(name: 'attachLog', defaultValue: true, description: 'Attach build log to email,')
+        booleanParam(name: 'attachLog', defaultValue: true, description: 'Attach build log to email.,')
     }
 
     triggers {
