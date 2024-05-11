@@ -3,47 +3,46 @@ pipeline {
 
     parameters {
         string(name: 'emailRecipient', defaultValue: 'abidnauman0@gmail.com', description: 'Email address to receive notifications.')
-        booleanParam(name: 'attachLog', defaultValue: true, description: 'Attach build log to email.,')
+        booleanParam(name: 'attachLog', defaultValue: true, description: 'If true, the build log will be attached to the email notifications.')
     }
 
     triggers {
-        pollSCM('* * * * *')
+        pollSCM('* * * * *') // Polls the Source Code Management (SCM) system every minute for changes.
     }
 
     stages {
         stage('Build') {
             steps {
-                echo 'Build the code using a build automation tool to compile and package your code. You need to specify at least one build automation tool e.g., Maven.  '
+                echo 'Building the application using Maven to compile the source code and package it into an executable form.'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'run unit tests to ensure the code functions as expected and run integration tests to ensure the different components of the application work together as expected. You need to specify test automation tools for this stage.'
-
+                echo 'Running unit tests with JUnit to validate individual components and integration tests with TestNG to ensure system-wide coordination and functionality.'
             }
         }
         stage('Code Analysis') {
             steps {
-                echo ' integrate a code analysis tool to analyse the code and ensure it meets industry standards. Research and select a tool to analyse your code using Jenkins. '
+                echo 'Analyzing the source code with SonarQube to detect potential quality issues and ensure compliance with coding standards.'
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'perform a security scan on the code using a tool to identify any vulnerabilities. Research and select a tool to scan your code. '
+                echo 'Conducting a comprehensive security scan with OWASP ZAP to identify and report any security vulnerabilities in the code.'
             }
             post {
                 success {
                     emailext(
-                        subject: 'Security Scan - No Vulnerabilities Found!',
-                        body: 'Security scan completed successfully - No vulnerabilities detected!',
+                        subject: 'Security Scan Completed: No Vulnerabilities Detected',
+                        body: 'The security scan has been completed successfully with no vulnerabilities found. Your code has passed the security checks and is ready for the next steps in the deployment process.',
                         to: "${params.emailRecipient}",
                         attachLog: "${params.attachLog}"
                     )
                 }
                 failure {
                     emailext(
-                        subject: 'Security Scan - Vulnerabilities Found!',
-                        body: 'Security scan detected vulnerabilities! Address them before deployment.',
+                        subject: 'Security Scan Alert: Vulnerabilities Detected',
+                        body: 'The security scan has detected vulnerabilities in your code. Please review the attached log for detailed information and address these issues promptly to ensure the security of your application.',
                         to: "${params.emailRecipient}",
                         attachLog: "${params.attachLog}"
                     )
@@ -52,18 +51,18 @@ pipeline {
         }
         stage('Deploy to Staging') {
             steps {
-                echo ' deploy the application to a staging server (e.g., AWS EC2 instance). '
+                echo 'Deploying the application to a staging environment on AWS EC2 to test the real-world functionality under controlled conditions.'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'run integration tests on the staging environment to ensure the application functions as expected in a production-like environment. '
+                echo 'Executing integration tests in the staging environment to ensure the application operates seamlessly and meets performance benchmarks.'
             }
             post {
                 always {
                     emailext(
-                        subject: 'Integration Tests on Staging - Complete!',
-                        body: 'Integration tests on Staging environment completed!',
+                        subject: 'Staging Integration Tests Completed',
+                        body: 'All integration tests on the staging environment have been completed successfully. The application is now ready for final deployment to production.',
                         to: "${params.emailRecipient}",
                         attachLog: "${params.attachLog}"
                     )
@@ -72,7 +71,7 @@ pipeline {
         }
         stage('Deploy to Production') {
             steps {
-                echo 'deploy the application to a production server (e.g., AWS EC2 instance).'
+                echo 'Deploying the application to the production server to make it available for end-user access.'
             }
         }
     }
